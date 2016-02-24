@@ -63,35 +63,62 @@ public class DatabaseActivity extends AppCompatActivity {
 
     /**
      * Adds a new Product to the database
-     * @param view the button
+     * @param view the view
      */
     public void newProduct(View view) {
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
-        int quantity = Integer.parseInt(quantityBox.getText().toString());
-        Product product = new Product(productBox.getText().toString(), quantity);
+        int quantity = Integer.parseInt(this.quantityBox.getText().toString());
+        Product product = new Product(this.productBox.getText().toString(), quantity);
         dbHandler.addProduct(product);
-        productBox.setText("");
-        quantityBox.setText("");
+        this.productBox.setText("");
+        this.quantityBox.setText("");
     }
 
+    /**
+     * finds a product in the database
+     * @param view - the view
+     */
     public void lookupProduct(View view) {
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
-        Product product = dbHandler.findProduct(productBox.getText().toString());
+        Product product = dbHandler.findProduct(this.productBox.getText().toString());
         if (product != null) {
-            idView.setText(String.valueOf(product.getID()));
-            quantityBox.setText(String.valueOf(product.getQuantity()));
+            this.idView.setText(String.valueOf(product.getID()));
+            this.quantityBox.setText(String.valueOf(product.getQuantity()));
         } else {
-            idView.setText("No Match Found");
+            this.idView.setText("No Match Found");
         }
     }
 
+    /**
+     * Deletes a product from the database
+     * @param view - view
+     */
     public void removeProduct(View view) {
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
         boolean result = dbHandler.deleteProduct(productBox.getText().toString());
         if (result) {
-            idView.setText("Record Deleted");
-            productBox.setText("");
-            quantityBox.setText("");
+            this.idView.setText("Record Deleted");
+            this.productBox.setText("");
+            this.quantityBox.setText("");
+        }
+    }
+
+    /**
+     * updates a product in the database
+     * @param view - the view
+     */
+    public void updateProduct(View view) {
+
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+        int id = Integer.parseInt(this.idView.getText().toString());
+        String name = this.productBox.getText().toString();
+        int quantity = Integer.parseInt(this.quantityBox.getText().toString());
+        Product product = new Product(id, name, quantity);
+        boolean result = dbHandler.updateProduct(product);
+        if (result) {
+            this.idView.setText("Record Updated");
+        } else {
+            this.idView.setText("Update Failed");
         }
     }
 }

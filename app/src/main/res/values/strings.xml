@@ -8,4 +8,5 @@
     <string name="add_button_string">ADD</string>
     <string name="find_button_string">FIND</string>
     <string name="delete_button_string">DELETE</string>
+    <string name="update_button_string">UPDATE</string>
 </resources>

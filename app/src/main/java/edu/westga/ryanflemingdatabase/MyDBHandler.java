@@ -106,4 +106,17 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
         return result;
     }
+
+    public boolean updateProduct(Product product) {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PRODUCTNAME, product.getProductName());
+        values.put(COLUMN_QUANTITY, product.getQuantity());
+        SQLiteDatabase db = this.getWritableDatabase();
+        String where = COLUMN_ID + "=?";
+        String[] whereValue = {String.valueOf(product.getID())};
+
+        int count = db.update(TABLE_PRODUCTS, values, where, whereValue);
+        db.close();
+        return count > 0;
+    }
 }
