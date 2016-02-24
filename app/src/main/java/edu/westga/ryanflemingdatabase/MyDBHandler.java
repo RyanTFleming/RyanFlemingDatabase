@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Class for interacting with SQLite database.
@@ -26,15 +27,17 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_PRODUCTS_TABLE = "CREATE TABLE" + TABLE_PRODUCTS + "(" +
-                COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_PRODUCTNAME + "Text, " +
-                COLUMN_QUANTITY + " INTEGER" + ")";
+
+        String CREATE_PRODUCTS_TABLE = "CREATE TABLE " +
+                TABLE_PRODUCTS + "("
+                + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_PRODUCTNAME
+                + " TEXT, " + COLUMN_QUANTITY + " INTEGER" + ")";
         db.execSQL(CREATE_PRODUCTS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS" + TABLE_PRODUCTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
         this.onCreate(db);
     }
 
@@ -79,5 +82,28 @@ public class MyDBHandler extends SQLiteOpenHelper {
         }
         db.close();
         return product;
+    }
+
+    public boolean deleteProduct(String productName) {
+
+        boolean result = false;
+
+        String query = "Select * FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCTNAME + " =  \"" + productName + "\"";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        Product product = new Product();
+
+        if (cursor.moveToFirst()) {
+            product.setID(Integer.parseInt(cursor.getString(0)));
+            db.delete(TABLE_PRODUCTS, COLUMN_ID + " = ?",
+                    new String[] { String.valueOf(product.getID()) });
+            cursor.close();
+            result = true;
+        }
+        db.close();
+        return result;
     }
 }
