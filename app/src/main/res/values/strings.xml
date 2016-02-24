@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">RyanFlemingDatabase</string>
     <string name="action_settings">Settings</string>
+    <string name="product_id_label">Product ID</string>
+    <string name="product_id_value">Not Assigned</string>
+    <string name="product_name_label">Product Name</string>
+    <string name="product_quantity_label">Product Quantity</string>
 </resources>
