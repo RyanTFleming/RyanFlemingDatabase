@@ -2,6 +2,7 @@ package edu.westga.ryanflemingdatabase;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -52,5 +53,31 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    /**
+     * Retrieves the information for a product from the database then
+     * creates a product and returns it.
+     * @param productName - the name of the product to get info
+     * @return product - the product to return.
+     */
+    public Product findProduct(String productName) {
+        String query = "SELECT * FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCTNAME +
+                " = \"" + productName + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        Cursor cursor = db.rawQuery(query, null);
+
+        Product product = new Product();
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            product.setID(Integer.parseInt(cursor.getString(0)));
+            product.setProductName(cursor.getString(1));
+            product.setQuantity(Integer.parseInt(cursor.getString(2)));
+            cursor.close();
+        } else {
+            product = null;
+        }
+        db.close();
+        return product;
+    }
 }
