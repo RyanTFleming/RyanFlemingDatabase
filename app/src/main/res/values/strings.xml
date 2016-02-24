@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">RyanFlemingDatabase</string>
     <string name="action_settings">Settings</string>
-    <string name="product_id_label">Product ID</string>
-    <string name="product_id_value">Not Assigned</string>
-    <string name="product_name_label">Product Name</string>
-    <string name="product_quantity_label">Product Quantity</string>
+    <string name="product_id_string">Product ID</string>
+    <string name="not_assigned_string">Not Assigned</string>
+    <string name="product_name_string">Product Name</string>
+    <string name="product_quantity_string">Product Quantity</string>
+    <string name="add_button_string">ADD</string>
+    <string name="find_button_string">FIND</string>
+    <string name="delete_button_string">DELETE</string>
 </resources>
