@@ -1,5 +1,6 @@
 package edu.westga.ryanflemingdatabase;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -35,4 +36,21 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS" + TABLE_PRODUCTS);
         this.onCreate(db);
     }
+
+    /**
+     * Adds a product to the database.
+     *
+     * @param product - product to be added
+     */
+    public void addProduct(Product product) {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PRODUCTNAME, product.getProductName());
+        values.put(COLUMN_QUANTITY, product.getQuantity());
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.insert(TABLE_PRODUCTS, null, values);
+        db.close();
+    }
+
+
 }
