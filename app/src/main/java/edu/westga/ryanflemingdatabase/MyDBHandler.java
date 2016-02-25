@@ -84,6 +84,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return product;
     }
 
+    /**
+     * Deletes a product from the database
+     * @param productName - the name of the product to delete
+     * @return result - true if deleted false otherwise
+     */
     public boolean deleteProduct(String productName) {
 
         boolean result = false;
@@ -107,6 +112,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return result;
     }
 
+    /**
+     * updates a product in the product database.
+     * @param product - the product to update
+     * @return true if a record is updated, false otherwise
+     */
     public boolean updateProduct(Product product) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_PRODUCTNAME, product.getProductName());
@@ -118,5 +128,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
         int count = db.update(TABLE_PRODUCTS, values, where, whereValue);
         db.close();
         return count > 0;
+    }
+
+    /**
+     * Deletes all the records in database
+     * @return the number of records deleted
+     */
+    public int deleteAllProducts() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_PRODUCTS, "1", null);
     }
 }

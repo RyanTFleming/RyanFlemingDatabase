@@ -67,11 +67,14 @@ public class DatabaseActivity extends AppCompatActivity {
      */
     public void newProduct(View view) {
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+
         int quantity = Integer.parseInt(this.quantityBox.getText().toString());
         Product product = new Product(this.productBox.getText().toString(), quantity);
         dbHandler.addProduct(product);
         this.productBox.setText("");
         this.quantityBox.setText("");
+
+
     }
 
     /**
@@ -110,15 +113,38 @@ public class DatabaseActivity extends AppCompatActivity {
     public void updateProduct(View view) {
 
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
-        int id = Integer.parseInt(this.idView.getText().toString());
+
         String name = this.productBox.getText().toString();
-        int quantity = Integer.parseInt(this.quantityBox.getText().toString());
-        Product product = new Product(id, name, quantity);
-        boolean result = dbHandler.updateProduct(product);
-        if (result) {
-            this.idView.setText("Record Updated");
+        Product oldProduct = dbHandler.findProduct(name);
+        if (oldProduct == null) {
+            this.idView.setText("Please Add First");
         } else {
-            this.idView.setText("Update Failed");
+            int quantity = Integer.parseInt(this.quantityBox.getText().toString());
+            int id = Integer.parseInt(this.idView.getText().toString());
+            Product product = new Product(id, name, quantity);
+            boolean result = dbHandler.updateProduct(product);
+            if (result) {
+                this.idView.setText("Record Updated");
+            } else {
+                this.idView.setText("Update Failed");
+            }
         }
+    }
+
+    /**
+     * Removes all records from the database.
+     * @param view - the view
+     */
+    public void removeAllRecords(View view) {
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+        int count = dbHandler.deleteAllProducts();
+        if (count == 1) {
+            this.idView.setText(count + " Record Deleted");
+        } else if (count > 1) {
+            this.idView.setText(count + " Records Deleted");
+        } else {
+            this.idView.setText("Table Was Empty");
+        }
+
     }
 }
