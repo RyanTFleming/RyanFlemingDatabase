@@ -229,14 +229,16 @@ public class DatabaseActivity extends AppCompatActivity {
 
     @SuppressWarnings("unused")
     private void isProductIDSet() {
-        Button btnUpdate = (Button) DatabaseActivity.this.findViewById(R.id.btnUpdate);
-        boolean isEnabled;
+        Button btnUpdate = (Button) this.findViewById(R.id.btnUpdate);
+        Button btnDelete = (Button) this.findViewById(R.id.btnDelete);
+        boolean enabled;
         try {
             int id = Integer.parseInt(DatabaseActivity.this.idView.getText().toString());
-            isEnabled = true;
+            enabled = true;
         } catch (NumberFormatException nfe) {
-            isEnabled = false;
+            enabled = false;
         }
-        btnUpdate.setEnabled(isEnabled);
+        btnUpdate.setEnabled(enabled);
+        btnDelete.setEnabled(enabled);
     }
 }
